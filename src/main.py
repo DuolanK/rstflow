@@ -6,7 +6,7 @@ from auth.schemas import UserRead, UserCreate
 from operations.router import router as router_operation
 
 app = FastAPI(
-    title="Trading App"
+    title="RestoflowAPI"
 )
 
 app.include_router(
