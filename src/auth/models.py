@@ -1,48 +1,41 @@
-from typing import Optional
+from datetime import datetime
 
-from fastapi import Depends, Request
-from fastapi_users import BaseUserManager, IntegerIDMixin, exceptions, models, schemas
+from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
+from sqlalchemy import Table, Column, Integer, String, TIMESTAMP, ForeignKey, JSON, Boolean, MetaData
 
-from auth.models import User
-from auth.utils import get_user_db
+from database import Base
 
-from config import SECRET_AUTH
+metadata = MetaData()
 
+role = Table(
+    "role",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("name", String, nullable=False),
+    Column("permissions", JSON),
+)
 
-class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
-    reset_password_token_secret = SECRET_AUTH
-    verification_token_secret = SECRET_AUTH
+user = Table(
+    "user",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("email", String, nullable=False),
+    Column("username", String, nullable=False),
+    Column("registered_at", TIMESTAMP, default=datetime.utcnow),
+    Column("role_id", Integer, ForeignKey(role.c.id)),
+    Column("hashed_password", String, nullable=False),
+    Column("is_active", Boolean, default=True, nullable=False),
+    Column("is_superuser", Boolean, default=False, nullable=False),
+    Column("is_verified", Boolean, default=False, nullable=False),
+)
 
-    async def on_after_register(self, user: User, request: Optional[Request] = None):
-        print(f"User {user.id} has registered.")
-
-    async def create(
-        self,
-        user_create: schemas.UC,
-        safe: bool = False,
-        request: Optional[Request] = None,
-    ) -> models.UP:
-        await self.validate_password(user_create.password, user_create)
-
-        existing_user = await self.user_db.get_by_email(user_create.email)
-        if existing_user is not None:
-            raise exceptions.UserAlreadyExists()
-
-        user_dict = (
-            user_create.create_update_dict()
-            if safe
-            else user_create.create_update_dict_superuser()
-        )
-        password = user_dict.pop("password")
-        user_dict["hashed_password"] = self.password_helper.hash(password)
-        user_dict["role_id"] = 1
-
-        created_user = await self.user_db.create(user_dict)
-
-        await self.on_after_register(created_user, request)
-
-        return created_user
-
-
-async def get_user_manager(user_db=Depends(get_user_db)):
-    yield UserManager(user_db)
+class User(SQLAlchemyBaseUserTable[int], Base):
+    id = Column(Integer, primary_key=True)
+    email = Column(String, nullable=False)
+    username = Column(String, nullable=False)
+    registered_at = Column(TIMESTAMP, default=datetime.utcnow)
+    role_id = Column(Integer, ForeignKey(role.c.id))
+    hashed_password: str = Column(String(length=1024), nullable=False)
+    is_active: bool = Column(Boolean, default=True, nullable=False)
+    is_superuser: bool = Column(Boolean, default=False, nullable=False)
+    is_verified: bool = Column(Boolean, default=False, nullable=False)
