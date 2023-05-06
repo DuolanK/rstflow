@@ -9,6 +9,6 @@ operation = Table(
     Column("id", Integer, primary_key=True),
     Column("quantity", String),
     Column("name", String),
-    Column("date", TIMESTAMP),
+    Column("date", type_=TIMESTAMP(timezone=True)),
     Column("description", String),
 )

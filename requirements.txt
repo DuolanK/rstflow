@@ -4,4 +4,4 @@ fastapi-users[sqlalchemy]
 asyncpg
 python-dotenv
 sqlalchemy
-psycopg2
+
