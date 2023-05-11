@@ -5,6 +5,20 @@ from sqlalchemy import Table, Column, Integer, String, TIMESTAMP, ForeignKey, JS
 
 from database import Base
 
+
+from typing import AsyncGenerator, List
+
+from fastapi import Depends
+from fastapi_users.db import (
+    SQLAlchemyBaseOAuthAccountTableUUID,
+    SQLAlchemyBaseUserTableUUID,
+    SQLAlchemyUserDatabase,
+)
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.orm import DeclarativeBase, Mapped, relationship
+from database import get_async_session
+
+
 metadata = MetaData()
 
 role = Table(
@@ -29,7 +43,11 @@ user = Table(
     Column("is_verified", Boolean, default=False, nullable=False),
 )
 
-class User(SQLAlchemyBaseUserTable[int], Base):
+
+class OAuthAccount(SQLAlchemyBaseOAuthAccountTableUUID, Base):
+    pass
+
+class User(SQLAlchemyBaseUserTableUUID, Base):
     id = Column(Integer, primary_key=True)
     email = Column(String, nullable=False)
     username = Column(String, nullable=False)
@@ -39,3 +57,10 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     is_active: bool = Column(Boolean, default=True, nullable=False)
     is_superuser: bool = Column(Boolean, default=False, nullable=False)
     is_verified: bool = Column(Boolean, default=False, nullable=False)
+    oauth_accounts: Mapped[List[OAuthAccount]] = relationship(
+        "OAuthAccount", lazy="joined")
+
+
+async def get_user_db(session: AsyncSession = Depends(get_async_session)):
+    yield SQLAlchemyUserDatabase(session, User, OAuthAccount)
+

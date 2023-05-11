@@ -4,6 +4,7 @@ from auth.base_config import auth_backend, fastapi_users
 from auth.schemas import UserRead, UserCreate
 from fastapi.middleware.cors import CORSMiddleware
 from operations.router import router as router_operation
+from google_config import google_oauth_client
 
 app = FastAPI(
     title="RestoflowAPI"
@@ -23,9 +24,26 @@ app.include_router(
 
 app.include_router(router_operation)
 
+app.include_router(
+    fastapi_users.get_oauth_router(
+        google_oauth_client,
+        auth_backend,
+        "SECRET",
+        is_verified_by_default=True,
+    ),
+    prefix="/auth/google",
+    tags=["auth"],
+)
+
+
+app.include_router(
+    fastapi_users.get_oauth_associate_router(google_oauth_client, UserRead, "SECRET"),
+    prefix="/auth/associate/google",
+    tags=["auth"],
+)
 
 origins = [
-    "http://localhost:3000",
+    "http://localhost:5000",
 ]
 
 app.add_middleware(
