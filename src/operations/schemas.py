@@ -9,3 +9,10 @@ class OperationCreate(BaseModel):
     name: str
     date: datetime
     description: str
+
+
+class OperationUpdate(BaseModel):
+    quantity: str
+    name: str
+    date: datetime
+    description: str
