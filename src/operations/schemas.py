@@ -5,8 +5,8 @@ from pydantic import BaseModel
 
 class ProductCreate(BaseModel):
     id: int
-    quantity: str
-    price: str
+    quantity: int
+    price: int
     creator_id: int
     name: str
     date: datetime
@@ -16,8 +16,8 @@ class ProductCreate(BaseModel):
 
 class ProductUpdate(BaseModel):
     id: int
-    quantity: str
-    price: str
+    quantity: int
+    price: int
     creator_id: int
     name: str
     date: datetime

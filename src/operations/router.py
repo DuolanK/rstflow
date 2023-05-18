@@ -30,7 +30,7 @@ async def add_specific_product(new_product: ProductCreate, session: AsyncSession
     return {"status": "success"}
 
 
-@router.put("/{operation_id}")
+@router.put("/{product_id}")
 async def update_specific_product(id: int, updated_product: ProductUpdate, session: AsyncSession = Depends(get_async_session)):
     # Проверка, существует ли операция с указанным идентификатором
     existing_product = await session.execute(select(product).filter_by(id=id))
@@ -44,7 +44,7 @@ async def update_specific_product(id: int, updated_product: ProductUpdate, sessi
 
     return {"status": "success"}
 
-@router.delete("/{operation_id}")
+@router.delete("/{product_id}")
 async def delete_specific_product(id: int, session: AsyncSession = Depends(get_async_session)):
     # Проверка, существует ли операция с указанным идентификатором
     existing_product = await session.execute(select(product).filter_by(id=id))
