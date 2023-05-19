@@ -6,7 +6,7 @@ from pydantic import BaseModel
 class OrderCreate(BaseModel):
     id: int
     quantity: int
-    creator: str
+    creator_id: int
     date: datetime
 
 

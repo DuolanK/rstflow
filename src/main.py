@@ -4,6 +4,7 @@ from auth.base_config import auth_backend, fastapi_users
 from auth.schemas import UserRead, UserCreate
 from fastapi.middleware.cors import CORSMiddleware
 from operations.router import router as router_operation
+from order.router import router as router_order
 from google_config import google_oauth_client
 
 app = FastAPI(
@@ -23,6 +24,8 @@ app.include_router(
 )
 
 app.include_router(router_operation)
+
+app.include_router(router_order)
 
 app.include_router(
     fastapi_users.get_oauth_router(
