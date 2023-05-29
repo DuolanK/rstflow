@@ -1,16 +1,9 @@
 from typing import Optional
-
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, IntegerIDMixin, exceptions, models, schemas
-
 from .models import User
 from .utils import get_user_db
-
 from config import SECRET_AUTH
-
-
-
-
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     reset_password_token_secret = SECRET_AUTH

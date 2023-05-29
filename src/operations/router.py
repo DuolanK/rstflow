@@ -1,9 +1,7 @@
 from http.client import HTTPException
-
 from fastapi import APIRouter, Depends
 from sqlalchemy import select, insert, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from database import get_async_session
 from .models import product
 from .schemas import ProductCreate, ProductUpdate

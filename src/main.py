@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-
 from auth.base_config import auth_backend, fastapi_users
 from auth.schemas import UserRead, UserCreate
 from fastapi.middleware.cors import CORSMiddleware
@@ -46,7 +45,7 @@ app.include_router(
 )
 
 origins = [
-    "http://localhost:5000",
+    "http://localhost:5554",
 ]
 
 app.add_middleware(
