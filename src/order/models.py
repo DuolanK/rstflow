@@ -7,7 +7,7 @@ order = Table(
     metadata,
     Column("id", Integer, primary_key=True),
     Column("quantity", Integer),
-    Column("creator_id", Integer),
+    Column("shop_id", Integer),
     Column("client_id", Integer),
     Column("date", type_=TIMESTAMP(timezone=True)),
 )

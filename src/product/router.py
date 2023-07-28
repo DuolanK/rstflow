@@ -8,10 +8,9 @@ from .schemas import ProductCreate, ProductUpdate
 from fastapi.responses import JSONResponse
 
 router = APIRouter(
-    prefix="/products",
-    tags=["Product"]
+    prefix="/product",
+    tags=["Products"]
 )
-
 
 @router.get("/")
 async def get_specific_product(product_description: str, session: AsyncSession = Depends(get_async_session)):
@@ -33,7 +32,7 @@ async def update_specific_product(id: int, updated_product: ProductUpdate, sessi
     # Проверка, существует ли операция с указанным идентификатором
     existing_product = await session.execute(select(product).filter_by(id=id))
     if not existing_product.scalar():
-        raise HTTPException(status_code=404, detail="Записьне найдена")
+        raise HTTPException(status_code=404, detail="<Запись> о продукте не найдена")
 
     # Обновление информации об операции
     update_values = updated_product.dict(exclude_unset=True)
@@ -47,7 +46,7 @@ async def delete_specific_product(id: int, session: AsyncSession = Depends(get_a
     # Проверка, существует ли операция с указанным идентификатором
     existing_product = await session.execute(select(product).filter_by(id=id))
     if not existing_product.scalar():
-        raise HTTPException(status_code=404, detail="<Запись> не найдена")
+        raise HTTPException(status_code=404, detail="<Запись> о продукте не найдена")
 
     # Удаление операции
     await session.execute(delete(product).where(product.c.id == id))

@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 from auth.base_config import auth_backend, fastapi_users
+from auth.base_config import router as router_authapi
 from auth.schemas import UserRead, UserCreate
 from fastapi.middleware.cors import CORSMiddleware
-from operations.router import router as router_operation
+from shop.router import router as router_shop
+from product.router import router as router_product
 from order.router import router as router_order
 from google_config import google_oauth_client
 
@@ -22,7 +24,11 @@ app.include_router(
     tags=["Auth"],
 )
 
-app.include_router(router_operation)
+app.include_router(router_authapi)
+
+app.include_router(router_product)
+
+app.include_router(router_shop)
 
 app.include_router(router_order)
 
@@ -45,7 +51,7 @@ app.include_router(
 )
 
 origins = [
-    "http://localhost:5554",
+    "*",
 ]
 
 app.add_middleware(
