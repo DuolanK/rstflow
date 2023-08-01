@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from auth.base_config import auth_backend, fastapi_users
-from auth.base_config import router as router_authapi
+from auth.router import router as router_authapi
 from auth.schemas import UserRead, UserCreate
 from fastapi.middleware.cors import CORSMiddleware
 from shop.router import router as router_shop
@@ -60,6 +60,6 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PATCH", "PUT"],
     allow_headers=["Content-Type", "Set-Cookie", "Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
-                   "Authorization"],
+                   "Authorization"]
 )
 
