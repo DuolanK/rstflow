@@ -1,0 +1,20 @@
+version: "3.0"
+services:
+  db:
+    container_name: "db"
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1488
+      - POSTGRES_DB=rstflow
+    ports:
+      - "5432:5432"
+    networks:
+      - custom
+#    volumes:
+#      - ./db/data:/var/lib/postgresql/data
+
+networks:
+  custom:
+    driver: bridge
