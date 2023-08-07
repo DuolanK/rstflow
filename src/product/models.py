@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String, TIMESTAMP, MetaData, ForeignKey
+from sqlalchemy import Table, Column, Integer, String, TIMESTAMP, MetaData, ForeignKey, Boolean
 
 metadata = MetaData()
 
@@ -11,7 +11,8 @@ product = Table(
     Column("price", Integer),
     Column("name", String),
     Column("date", type_=TIMESTAMP(timezone=True)),
-    Column("time", Integer),
+    Column("prep_time", Integer),
     Column("description", String),
+    Column("is_available", Boolean),
 )
 

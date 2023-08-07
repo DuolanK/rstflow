@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String, TIMESTAMP, MetaData
+from sqlalchemy import Table, Column, Integer, String, TIMESTAMP, MetaData, DateTime, JSON
 
 metadata = MetaData()
 
@@ -9,5 +9,7 @@ order = Table(
     Column("quantity", Integer),
     Column("shop_id", Integer),
     Column("client_id", Integer),
-    Column("date", type_=TIMESTAMP(timezone=True)),
+    Column("created_at", type_=TIMESTAMP(timezone=True)),
+    Column("done_until", type_=TIMESTAMP(timezone=True)),
+    Column("status", JSON),
 )

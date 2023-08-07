@@ -2,7 +2,6 @@ from datetime import datetime
 from pydantic import BaseModel
 
 class ProductCreate(BaseModel):
-    id: int
     shop_id: int
     quantity: int
     price: int
@@ -10,9 +9,10 @@ class ProductCreate(BaseModel):
     date: datetime
     time: int
     description: str
+    is_available: bool
+
 
 class ProductUpdate(BaseModel):
-    id: int
     shop_id: int
     quantity: int
     price: int
@@ -20,5 +20,5 @@ class ProductUpdate(BaseModel):
     date: datetime
     time: int
     description: str
-
+    is_available: bool
 

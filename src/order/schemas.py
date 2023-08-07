@@ -3,11 +3,10 @@ from pydantic import BaseModel
 
 
 class OrderCreate(BaseModel):
-    id: int
     quantity: int
     shop_id: int
     client_id: int
-    date: datetime
-
-
+    created_at: datetime
+    done_until: datetime
+    status_id: int
 
