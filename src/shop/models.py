@@ -10,9 +10,10 @@ shop = Table(
     Column("description", String),
     Column("creator_id", Integer),
     Column("is_active", Boolean),
-    Column("work_time_from", DateTime.Time),
-    Column("work_time_to", DateTime.Time),
+    Column("work_time_from", TIMESTAMP(timezone=False), nullable=False, default='08:00'),
+    Column("work_time_to", TIMESTAMP(timezone=False), nullable=False, default='08:00'),
     Column("latitude", Float),
     Column("longitude", Float),
 )
 
+Column('timestamp', )

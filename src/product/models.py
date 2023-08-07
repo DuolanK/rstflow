@@ -10,7 +10,6 @@ product = Table(
     Column("quantity", Integer),
     Column("price", Integer),
     Column("name", String),
-    Column("date", type_=TIMESTAMP(timezone=True)),
     Column("prep_time", Integer),
     Column("description", String),
     Column("is_available", Boolean),
