@@ -6,8 +6,8 @@ class ShopCreate(BaseModel):
     description: str
     creator_id: int
     is_active: bool
-    work_time_from: DateTime.Time
-    work_time_to: DateTime.Time
+    work_time_from: float
+    work_time_to: float
     latitude: float
     longitude: float
 
@@ -17,7 +17,7 @@ class ShopUpdate(BaseModel):
     description: str
     creator_id: int
     is_active: bool
-    work_time_from: DateTime.Time
-    work_time_to: DateTime.Time
+    work_time_from: float
+    work_time_to: float
     latitude: float
     longitude: float
